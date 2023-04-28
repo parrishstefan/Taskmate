@@ -16,7 +16,7 @@ import sys
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton,
                              QLabel, QStackedWidget, QLineEdit, QCalendarWidget,
                              QSplashScreen, QMainWindow, QMessageBox, QDateTimeEdit, 
-                             QScrollArea, QSpinBox, QComboBox, QTimeEdit)
+                             QScrollArea, QSpinBox, QComboBox, QTimeEdit, QListWidget)
 from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QPixmap, QColor, QPalette
 from PyQt6.QtCore import Qt
 
@@ -25,11 +25,14 @@ from itertools import permutations
 userInfo = {"Activity": [], "Description": [],"Hours": [], "Day": []}
 available_hours = {}
 tasks = {}
+schedulesArr = []
 eventsAdded = 0
 
 class Page1(QWidget):
-    def __init__(self):
+    def __init__(self, page2):
         super().__init__()
+
+        self.page2 = page2
 
         bg1 = QWidget(self)
         # self.setCentralWidget(bg1)
@@ -170,7 +173,12 @@ class Page1(QWidget):
         # print(day)
 
     def goToPage2(self, dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel):
+        self.generateSchedule()
+
+        self.page2.updateScheduleList("here")
+
         stacked_widget.setCurrentWidget(page2)
+
 
         dayLabel.move(220, 150)
         dayComboBox.move(220, 170)
@@ -180,6 +188,45 @@ class Page1(QWidget):
         toLabel.move(105, 220)
 
         print(userInfo)
+
+    def generateSchedule(self):
+        # generate all possible task orders
+        task_orders = permutations(tasks.keys())
+
+        # generate all possible schedules for each day
+        schedules = {}
+        for day, hours in available_hours.items():
+            schedules[day] = []
+            for task_order in task_orders:
+                schedule = {}
+                current_time = hours[0]
+                for task in task_order:
+                    duration = tasks[task]
+                    if current_time + duration > hours[1]:
+                        break
+                    schedule[task] = (current_time, current_time + duration)
+                    current_time += duration
+                else:
+                    schedules[day].append(schedule)
+        
+        # print all possible schedules for each day
+        for day, day_schedules in schedules.items():
+            print(f"{day}:") # this will be a label above the listview
+            if len(day_schedules) == 0:
+                print("  No valid schedules found.")
+            else:
+                for i, schedule in enumerate(day_schedules):
+                    print(f"  Schedule {i + 1}:")
+                    for task, (start_time, end_time) in schedule.items():
+
+                        if(len(schedulesArr) > i):
+                            schedulesArr[i] += f"{task}: {start_time}:00-{end_time}:00\n"
+                        else:
+                            schedulesArr.append(f"{task}: {start_time}:00-{end_time}:00\n")
+                        
+                        print(f"    {task}: {start_time}-{end_time}")
+                    print()
+                    schedulesArr[-1] = schedulesArr[-1][:-1]
 
 # Pop up window
 
@@ -204,45 +251,25 @@ class Page2(QWidget):
         # Set Font
         label4.setFont(font1)
 
+        # Currently generates schedule, will change to auto do on page load or make it the submit button from page 1
         button = QPushButton("next", self)
         button.move(50, 400)
-        #button.clicked.connect(self.go_to_page3)
-        button.clicked.connect(self.generateSchedule)
-    
-    def deleteThisAfter(self):
-        print(tasks)
-    
-    def generateSchedule(self):
-        # generate all possible task orders
-        task_orders = permutations(tasks.keys())
+        button.clicked.connect(self.go_to_page3)
+        #button.clicked.connect(self.generateSchedule)
 
-        # generate all possible schedules for each day
-        schedules = {}
-        for day, hours in available_hours.items():
-            schedules[day] = []
-            for task_order in task_orders:
-                schedule = {}
-                current_time = hours[0]
-                for task in task_order:
-                    duration = tasks[task]
-                    if current_time + duration > hours[1]:
-                        break
-                    schedule[task] = (current_time, current_time + duration)
-                    current_time += duration
-                else:
-                    schedules[day].append(schedule)
+        # Load schedule
 
-        # print all possible schedules for each day
-        for day, day_schedules in schedules.items():
-            print(f"{day}:")
-            if len(day_schedules) == 0:
-                print("  No valid schedules found.")
-            else:
-                for i, schedule in enumerate(day_schedules):
-                    print(f"  Schedule {i + 1}:")
-                    for task, (start_time, end_time) in schedule.items():
-                        print(f"    {task}: {start_time}-{end_time}")
-                    print()
+        event1 = "event1"
+        event2 = "event2"
+        time1 = "9-13"
+        time2 = "13-14"
+
+        self.scheduleList = QListWidget(self)
+        #self.scheduleList.addItems([f"{event1} from {time1}\n{event2} from {time2}"])
+        self.scheduleList.move(50, 200)
+    
+    def updateScheduleList(self, schedule):
+        self.scheduleList.addItems(schedulesArr)
 
     def go_to_page3(self):
         stacked_widget.setCurrentWidget(page3)
@@ -286,8 +313,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Create the pages
-    page1 = Page1()
     page2 = Page2()
+    page1 = Page1(page2)
     page3 = Page3()
 
     # Create the stacked widget and add the pages to it

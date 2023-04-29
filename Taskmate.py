@@ -34,32 +34,24 @@ class Page1(QWidget):
         self.page2 = page2
 
         taskMateLabel = QLabel("Task Mate", self)
-        taskMateLabel.setFont(QFont("Trebuchet MS", 30))
+        taskMateLabel.setFont(QFont("cy grotesk key demi", 35))
         taskMateLabel.setStyleSheet("""
                     QLabel {
-                        color: black;
+                        color: white;
                         background: rgba(0,0,0,0);
                     }
                 """)
-        taskMateLabel.move(400, 20)
-
-        # Font Size
-        # headerFont = QFont()
-        # headerFont.setBold(True)
-        # headerFont.setPointSize(20)
-
-        # Font Color
-        # taskMateLabel.setFont(headerFont)
-        # taskMateLabel.setStyleSheet("color: black")
+        taskMateLabel.move(520, 30)
 
         # Create Event
         eventLabel = QLabel("Event Name", self)
         eventLabel.setFont(QFont("Tahoma", 14))
-        eventLabel.move(50, 100)
+        eventLabel.move(320, 120)
         eventLabel.setStyleSheet("""
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
 
@@ -81,7 +73,7 @@ class Page1(QWidget):
                         border: 2px solid #3498DB;
                     }
                 """)
-        eventTextBox.move(160, 100)
+        eventTextBox.move(440, 117)
         eventTextBox.setFixedWidth(200)
         eventTextBox.setFixedHeight(33)
 
@@ -92,9 +84,10 @@ class Page1(QWidget):
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
-        hoursLabel.move(50, 155)
+        hoursLabel.move(320, 175)
 
         hoursBox = QSpinBox(self)
         hoursBox.setStyleSheet(
@@ -108,7 +101,7 @@ class Page1(QWidget):
                 }
             """
         )
-        hoursBox.move(50, 185)
+        hoursBox.move(320, 205)
 
         # Day of the Week
         dayLabel = QLabel("Which day would you like to do the task?", self)
@@ -117,9 +110,10 @@ class Page1(QWidget):
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
-        dayLabel.move(360, 230)
+        dayLabel.move(650, 250)
 
         # Styles for QComboBox
         styleCombo = f"""
@@ -161,7 +155,7 @@ class Page1(QWidget):
         dayComboBox = QComboBox(self)
         dayComboBox.setStyleSheet(styleCombo)
         dayComboBox.addItems(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"])
-        dayComboBox.move(360, 265)
+        dayComboBox.move(650, 285)
         dayComboBox.textActivated[str].connect(self.onActivated)
 
         self.dayText = QLabel('Sunday', self)
@@ -174,9 +168,10 @@ class Page1(QWidget):
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
-        timeLabel.move(50, 230)
+        timeLabel.move(320, 250)
 
         fromTimeEdit = QTimeEdit(self)
         fromTimeEdit.setDisplayFormat("HH:mm")
@@ -191,19 +186,20 @@ class Page1(QWidget):
                 }
             """
         )
-        fromTimeEdit.move(50, 265)
+        fromTimeEdit.move(320, 285)
 
         toLabel = QLabel("to", self)
         toLabel.setStyleSheet("""
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
-        toLabel.move(125, 267)
+        toLabel.move(405, 287)
 
         toTimeEdit = QTimeEdit(self)
-        toTimeEdit.move(150, 265)
+        toTimeEdit.move(430, 285)
         toTimeEdit.setDisplayFormat("HH:mm")
         toTimeEdit.setStyleSheet(
             """
@@ -224,9 +220,10 @@ class Page1(QWidget):
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
+                        font-weight: bold;
                     }
                 """)
-        descriptionLabel.move(50, 320)
+        descriptionLabel.move(320, 340)
 
         # Textbox for Note and Description
         descriptionTextBox = QLineEdit(self)
@@ -246,7 +243,7 @@ class Page1(QWidget):
                                 border: 2px solid #3498DB;
                             }
                         """)
-        descriptionTextBox.move(50, 350)
+        descriptionTextBox.move(320, 370)
         descriptionTextBox.setFixedWidth(300)
         descriptionTextBox.setFixedHeight(150)
 
@@ -269,7 +266,7 @@ class Page1(QWidget):
                         background-color: #1E8449;
                     }
                 """)
-        addTaskButton.move(50, 530)
+        addTaskButton.move(320, 550)
         addTaskButton.clicked.connect(lambda: self.addTask(eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel))
 
         # Submit
@@ -291,7 +288,7 @@ class Page1(QWidget):
                         background-color: #1B4F72;
                     }
                 """)
-        submitButton.move(200, 530)
+        submitButton.move(480, 550)
         submitButton.clicked.connect(lambda: self.goToPage2(dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel))
 
         # Set app background
@@ -364,12 +361,12 @@ class Page1(QWidget):
         stacked_widget.setCurrentWidget(page2)
 
 
-        dayLabel.move(360, 230)
-        dayComboBox.move(360, 265)
-        timeLabel.move(50, 230)
-        fromTimeEdit.move(50, 265)
-        toTimeEdit.move(150, 265)
-        toLabel.move(125, 267)
+        dayLabel.move(650, 250)
+        dayComboBox.move(650, 285)
+        timeLabel.move(320, 250)
+        fromTimeEdit.move(320, 285)
+        toLabel.move(405, 287)
+        toTimeEdit.move(430, 285)
 
         print(userInfo)
 
@@ -450,15 +447,15 @@ class Page2(QWidget):
 
         self.page3 = page3
 
-        scheduleLabel = QLabel("Choose Your Schedule", self)
-        scheduleLabel.setFont(QFont("Tahoma", 20))
+        scheduleLabel = QLabel("Choose Schedule", self)
+        scheduleLabel.setFont(QFont("cy grotesk key demi", 35))
         scheduleLabel.setStyleSheet("""
                     QLabel {
-                        color: black;
+                        color: white;
                         background: rgba(0,0,0,0);
                     }
                 """)
-        scheduleLabel.move(328, 40)
+        scheduleLabel.move(450, 30)
 
         self.dayLabel = QLabel("", self)
         self.dayLabel.setFont(QFont("Tahoma", 18))
@@ -469,14 +466,6 @@ class Page2(QWidget):
                     }
                 """)
         self.dayLabel.move(300, 170)
-
-        # Font
-        headerFont = QFont()
-        headerFont.setBold(True)
-        headerFont.setPointSize(20)
-
-        # Set Font
-        scheduleLabel.setFont(headerFont)
 
         # Currently generates schedule, will change to auto do on page load or make it the submit button from page 1
         submitButton = QPushButton("next", self)
@@ -827,7 +816,7 @@ class SplashScreen(QWidget):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.loading)
-        self.timer.start(15)
+        self.timer.start(1)
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -866,7 +855,7 @@ class SplashScreen(QWidget):
                                         
                                         QFrame {
                                             background-color: #BFCCB5;
-                                            background-image: url(background.png);
+                                            background-image: url(backgroundline.png);
                                             background-repeat: no-repeat; 
                                             background-position: center;
                                             color: rgb(220, 220, 220);
@@ -939,7 +928,7 @@ if __name__ == "__main__":
     stacked_widget.addWidget(page2)
     stacked_widget.addWidget(page3)
     #stacked_widget.setCurrentWidget(page1)
-    stacked_widget.setCurrentWidget(splash)
+    stacked_widget.setCurrentWidget(page1)
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")

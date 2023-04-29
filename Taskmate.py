@@ -939,7 +939,7 @@ if __name__ == "__main__":
     stacked_widget.addWidget(page2)
     stacked_widget.addWidget(page3)
     #stacked_widget.setCurrentWidget(page1)
-    stacked_widget.setCurrentWidget(Splash)
+    stacked_widget.setCurrentWidget(splash)
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")

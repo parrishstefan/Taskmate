@@ -452,10 +452,22 @@ class Page2(QWidget):
 
         scheduleLabel = QLabel("Choose Your Schedule", self)
         scheduleLabel.setFont(QFont("Tahoma", 20))
+        scheduleLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         scheduleLabel.move(328, 40)
 
         self.dayLabel = QLabel("", self)
         self.dayLabel.setFont(QFont("Tahoma", 18))
+        self.dayLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         self.dayLabel.move(300, 170)
 
         # Font
@@ -492,6 +504,7 @@ class Page2(QWidget):
         self.scheduleList = QListWidget(self)
         self.setStyleSheet("""
                     QListWidget {
+                        background: rgba(0,0,0,0);
                         background-color: #F1F6F9;
                         border: 1px #394867;
                         font-family: Arial;
@@ -499,11 +512,14 @@ class Page2(QWidget):
                         border-radius: 16px;
                     }
                     QListWidget::item {
+                        background: rgba(0,0,0,0);
                         background-color: #F6F1E9;
+                        color: black;
                         padding: 5px;
                         border-radius: 16px;
                     }
                     QListWidget::item:selected {
+                        background: rgba(0,0,0,0);
                         background-color: #088395;
                         color: white;
                         border-radius: 16px;
@@ -540,8 +556,14 @@ class Page3(QWidget):
     def __init__(self):
         super().__init__()
 
-        label4 = QLabel("Your Schedule", self)
-        label4.move(400,20)
+        scheduleLabel = QLabel("Your Schedule", self)
+        scheduleLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
+        scheduleLabel.move(400,20)
 
         # Font
         font1 = QFont()
@@ -549,7 +571,7 @@ class Page3(QWidget):
         font1.setPointSize(20)
 
         # Set Font
-        label4.setFont(font1)
+        scheduleLabel.setFont(font1)
 
         # Calendar View
         self.calendarView = QCalendarWidget(self)
@@ -561,18 +583,23 @@ class Page3(QWidget):
         self.descriptionTextBrowser = QTextBrowser(self)
         self.descriptionTextBrowser.setStyleSheet("""
                                     QTextBrowser {
+                                        background: rgba(0,0,0,0);
                                         background-color: #F1F6F9;
                                         border: 1px #394867;
                                         font-family: Arial;
                                         font-size: 18px;
+                                        color: black;
                                         border-radius: 16px;
                                     }
                                     QListWidget::item {
+                                        background: rgba(0,0,0,0);
                                         background-color: #F6F1E9;
                                         padding: 5px;
+                                        color: black;
                                         border-radius: 16px;
                                     }
                                     QListWidget::item:selected {
+                                        background: rgba(0,0,0,0);
                                         background-color: #088395;
                                         color: white;
                                         border-radius: 16px;
@@ -585,6 +612,7 @@ class Page3(QWidget):
         self.scheduleListCal = QListWidget(self)
         self.scheduleListCal.setStyleSheet("""
                             QListWidget {
+                                background: rgba(0,0,0,0);
                                 background-color: #F1F6F9;
                                 border: 1px #394867;
                                 font-family: Arial;
@@ -592,11 +620,14 @@ class Page3(QWidget):
                                 border-radius: 16px;
                             }
                             QListWidget::item {
+                                background: rgba(0,0,0,0);
                                 background-color: #F6F1E9;
                                 padding: 5px;
+                                color: black;
                                 border-radius: 16px;
                             }
                             QListWidget::item:selected {
+                                background: rgba(0,0,0,0);
                                 background-color: #088395;
                                 color: white;
                                 border-radius: 16px;

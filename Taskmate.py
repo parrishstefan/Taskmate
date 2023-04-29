@@ -259,10 +259,10 @@ class Page1(QWidget):
                         padding: 8px 16px;
                         border-radius: 16px;
                     }
-                    QToolButton#ModernButton:hover {
+                    QPushButton#ModernButton:hover {
                         background-color: #27AE60;
                     }
-                    QToolButton#ModernButton:pressed {
+                    QPushButton#ModernButton:pressed {
                         background-color: #1E8449;
                     }
                 """)
@@ -281,10 +281,10 @@ class Page1(QWidget):
                         padding: 8px 16px;
                         border-radius: 16px;
                     }
-                    QToolButton#ModernButton:hover {
+                    QPushButton#ModernButton2:hover {
                         background-color: #2980B9;
                     }
-                    QToolButton#ModernButton:pressed {
+                    QPushButton#ModernButton2:pressed {
                         background-color: #1B4F72;
                     }
                 """)
@@ -297,6 +297,23 @@ class Page1(QWidget):
 
         # Set developer notes
         changelogButton = QPushButton("?", self)
+        changelogButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        changelogButton.setObjectName("ModernButton3")
+        changelogButton.setStyleSheet("""
+                    QPushButton#ModernButton3 {
+                        background-color: #ff0000;
+                        color: white;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 16px;
+                    }
+                    QPushButton#ModernButton3:hover {
+                        background-color: #ab0000;
+                    }
+                    QPushButton#ModernButton3:pressed {
+                        background-color: #470000;
+                    }
+                """)
         changelogButton.clicked.connect(lambda: QMessageBox.information(None, '', 'Version 1.0 (March 7th, 2023)'
                                                                                   '\n'
                                                                                   '\n- Task creation page developed with limited UI elements'

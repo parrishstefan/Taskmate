@@ -267,7 +267,7 @@ class Page1(QWidget):
                     }
                 """)
         addTaskButton.move(320, 550)
-        addTaskButton.clicked.connect(lambda: self.addTask(eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel))
+        addTaskButton.clicked.connect(lambda: self.addTask(eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel, submitButton))
 
         # Submit
         submitButton = QPushButton("Submit", self)
@@ -288,8 +288,8 @@ class Page1(QWidget):
                         background-color: #1B4F72;
                     }
                 """)
-        submitButton.move(480, 550)
-        submitButton.clicked.connect(lambda: self.goToPage2(dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel))
+        submitButton.move(-5000, -5000)
+        submitButton.clicked.connect(lambda: self.goToPage2(dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel, submitButton))
 
         # Set app background
         # self.setStyleSheet("background-image: url('app_bg.jpg');")
@@ -310,7 +310,7 @@ class Page1(QWidget):
         self.dayText.setText(text)
         self.dayText.adjustSize()
 
-    def addTask(self, eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel):
+    def addTask(self, eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel, submitButton):
         global eventsAdded
 
         if not self.validate_inputs(eventTextBox, hoursBox, descriptionTextBox, fromTimeEdit, toTimeEdit):
@@ -322,6 +322,8 @@ class Page1(QWidget):
         fromTimeEdit.move(-5000,-5000)
         toTimeEdit.move(-5000,-5000)
         toLabel.move(-5000,-5000)
+
+        submitButton.move(480, 550)
 
         event = eventTextBox.text()
         description = descriptionTextBox.text()
@@ -351,7 +353,7 @@ class Page1(QWidget):
         # print(description)
         # print(day)
 
-    def goToPage2(self, dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel):
+    def goToPage2(self, dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel, submitButton):
 
 
         self.generateSchedule()
@@ -367,6 +369,8 @@ class Page1(QWidget):
         fromTimeEdit.move(320, 285)
         toLabel.move(405, 287)
         toTimeEdit.move(430, 285)
+
+        submitButton.move(-5000, -5000)
 
         print(userInfo)
 

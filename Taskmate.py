@@ -93,9 +93,9 @@ class Page1(QWidget):
         hoursBox.setStyleSheet(
             """
                 QSpinBox {
-                    background-color: #FFF3E2;
+                    background-color: #afd3e2;
                     color: #333333;
-                    border: 2px solid #FA9884;
+                    border: 2px solid #19a7ce;
                     border-radius: 5px;
                     padding: 2px;
                 }
@@ -178,9 +178,9 @@ class Page1(QWidget):
         fromTimeEdit.setStyleSheet(
             """
                 QTimeEdit {
-                    background-color: #FFF3E2;
+                    background-color: #afd3e2;
                     color: #333333;
-                    border: 2px solid #FA9884;
+                    border: 2px solid #19a7ce;
                     border-radius: 5px;
                     padding: 2px;
                 }
@@ -204,9 +204,9 @@ class Page1(QWidget):
         toTimeEdit.setStyleSheet(
             """
                 QTimeEdit {
-                    background-color: #FFF3E2;
+                    background-color: #afd3e2;
                     color: #333333;
-                    border: 2px solid #FA9884;
+                    border: 2px solid #19a7ce;
                     border-radius: 5px;
                     padding: 2px;
                 }
@@ -244,7 +244,7 @@ class Page1(QWidget):
                             }
                         """)
         descriptionTextBox.move(320, 370)
-        descriptionTextBox.setFixedWidth(300)
+        descriptionTextBox.setFixedWidth(320)
         descriptionTextBox.setFixedHeight(150)
 
         # Add Task
@@ -298,14 +298,16 @@ class Page1(QWidget):
         # Set developer notes
         changelogButton = QPushButton("?", self)
         changelogButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        changelogButton.setGeometry(1240,680,30,30)
         changelogButton.setObjectName("ModernButton3")
         changelogButton.setStyleSheet("""
                     QPushButton#ModernButton3 {
                         background-color: #ff0000;
                         color: white;
-                        border: none;
-                        padding: 8px 16px;
-                        border-radius: 16px;
+                        border-radius: 15px;
+                        font-weight: bold;
+                        font-size: 20px;
+                        
                     }
                     QPushButton#ModernButton3:hover {
                         background-color: #ab0000;
@@ -321,7 +323,7 @@ class Page1(QWidget):
                                                                                   '\n- Multiple task creation capabilities added'
                                                                                   '\n- Checkbox integration for days of the week'
                                                                                   '\n- Console log output for task management for the time being'))
-        changelogButton.move(800, 560)
+        #changelogButton.move(1240, 660)
     
     def onActivated(self, text):
         self.dayText.setText(text)

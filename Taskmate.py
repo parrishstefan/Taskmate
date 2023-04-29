@@ -6,15 +6,15 @@
 
 
 
-
+import time
 import sys
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton,
                              QLabel, QStackedWidget, QLineEdit, QCalendarWidget,
                              QSplashScreen, QMainWindow, QMessageBox, QDateTimeEdit, 
                              QScrollArea, QSpinBox, QComboBox, QTimeEdit, QListWidget,
-                             QTextBrowser)
+                             QTextBrowser, QProgressBar, QFrame, QVBoxLayout)
 from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QPixmap, QColor, QPalette, QCursor
-from PyQt6.QtCore import Qt, QDate
+from PyQt6.QtCore import Qt, QDate, QTimer
 
 from itertools import permutations
 
@@ -35,6 +35,12 @@ class Page1(QWidget):
 
         taskMateLabel = QLabel("Task Mate", self)
         taskMateLabel.setFont(QFont("Trebuchet MS", 30))
+        taskMateLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         taskMateLabel.move(400, 20)
 
         # Font Size
@@ -50,7 +56,12 @@ class Page1(QWidget):
         eventLabel = QLabel("Event Name", self)
         eventLabel.setFont(QFont("Tahoma", 14))
         eventLabel.move(50, 100)
-        eventLabel.setStyleSheet("color: black")
+        eventLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
 
         # Textbox for Event Name
         eventTextBox = QLineEdit(self)
@@ -70,14 +81,21 @@ class Page1(QWidget):
                         border: 2px solid #3498DB;
                     }
                 """)
-        eventTextBox.move(140, 92)
+        eventTextBox.move(160, 100)
         eventTextBox.setFixedWidth(200)
         eventTextBox.setFixedHeight(33)
 
         # Hours
         hoursLabel = QLabel("How many hours for this task?", self)
         hoursLabel.setFont(QFont("Tahoma", 14))
+        hoursLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         hoursLabel.move(50, 155)
+
         hoursBox = QSpinBox(self)
         hoursBox.setStyleSheet(
             """
@@ -95,6 +113,12 @@ class Page1(QWidget):
         # Day of the Week
         dayLabel = QLabel("Which day would you like to do the task?", self)
         dayLabel.setFont(QFont("Tahoma", 14))
+        dayLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         dayLabel.move(360, 230)
 
         # Styles for QComboBox
@@ -146,7 +170,14 @@ class Page1(QWidget):
         # Time Available
         timeLabel = QLabel("Which hours are you available?", self)
         timeLabel.setFont(QFont("Tahoma", 14))
+        timeLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         timeLabel.move(50, 230)
+
         fromTimeEdit = QTimeEdit(self)
         fromTimeEdit.setDisplayFormat("HH:mm")
         fromTimeEdit.setStyleSheet(
@@ -163,6 +194,12 @@ class Page1(QWidget):
         fromTimeEdit.move(50, 265)
 
         toLabel = QLabel("to", self)
+        toLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         toLabel.move(125, 267)
 
         toTimeEdit = QTimeEdit(self)
@@ -183,8 +220,13 @@ class Page1(QWidget):
         # Descriptions
         descriptionLabel = QLabel("Notes or Descriptions", self)
         descriptionLabel.setFont(QFont("Tahoma", 14))
+        descriptionLabel.setStyleSheet("""
+                    QLabel {
+                        color: black;
+                        background: rgba(0,0,0,0);
+                    }
+                """)
         descriptionLabel.move(50, 320)
-        descriptionLabel.setStyleSheet("color: black")
 
         # Textbox for Note and Description
         descriptionTextBox = QLineEdit(self)
@@ -685,21 +727,134 @@ class Page3(QWidget):
         stacked_widget.setCurrentWidget(page1)
 
 
+class SplashScreen(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Spash Screen Example')
+        self.setFixedSize(1280, 720)
+        #self.setWindowFlag(Qt.FramelessWindowHint)
+        #self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.counter = 0
+        self.n = 300 # total instance
+
+        self.initUI()
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.loading)
+        self.timer.start(2)
+
+    def initUI(self):
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        self.frame = QFrame()
+        layout.addWidget(self.frame)
+
+        self.progressBar = QProgressBar(self.frame)
+        self.progressBar.resize(400, 30)
+        self.progressBar.move(430, 620)
+        self.progressBar.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.progressBar.setFormat('%p%')
+        self.progressBar.setTextVisible(True)
+        self.progressBar.setRange(0, self.n)
+        self.progressBar.setValue(20)
+
+    def loading(self):
+        self.progressBar.setValue(self.counter)
+
+        if self.counter == int(self.n * 0.3):
+            pass
+        elif self.counter == int(self.n * 0.6):
+            pass#self.labelDescription.setText('<strong>Working on Task #3</strong>')
+        elif self.counter >= self.n:
+            self.timer.stop()
+            self.close()
+
+            time.sleep(1)
+
+            stacked_widget.setCurrentWidget(page1)
+            stacked_widget.setStyleSheet('''
+        #MyWidget {
+                background-color: #BFCCB5;
+        }
+        
+        QFrame {
+            background-color: #BFCCB5;
+            background-image: url(background.png);
+            background-repeat: no-repeat; 
+            background-position: center;
+            color: rgb(220, 220, 220);
+        }
+
+        QProgressBar {
+            background-color: #1A1A1A;
+            color: rgb(84, 84, 84);
+            border-style: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        QProgressBar::chunk {
+            border-radius: 10px;
+            background-color: #FFFFFF;
+        }
+    ''')
+
+        self.counter += 1
+
+class MyApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.window_width, self.window_height = 1280, 720
+        self.setMinimumSize(self.window_width, self.window_height)
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+    # app.setStyleSheet('''
+    #     QFrame {
+    #         background-color: #2F4454;
+    #         background-image: url(Splash.png);
+    #         background-repeat: no-repeat; 
+    #         background-position: center;
+    #         color: rgb(220, 220, 220);
+    #     }
+
+    #     QProgressBar {
+    #         background-color: #1A1A1A;
+    #         color: rgb(84, 84, 84);
+    #         border-style: none;
+    #         border-radius: 10px;
+    #         text-align: center;
+    #         font-size: 30px;
+    #     }
+
+    #     QProgressBar::chunk {
+    #         border-radius: 10px;
+    #         background-color: #FFFFFF;
+    #     }
+    # ''')
+
     # Create the pages
+    splash = SplashScreen()
     page3 = Page3()
     page2 = Page2(page3)
     page1 = Page1(page2)
 
     # Create the stacked widget and add the pages to it
     stacked_widget = QStackedWidget()
+    stacked_widget.addWidget(splash)
     stacked_widget.addWidget(page1)
     stacked_widget.addWidget(page2)
     stacked_widget.addWidget(page3)
-    stacked_widget.setCurrentWidget(page1)
+    #stacked_widget.setCurrentWidget(page1)
+    stacked_widget.setCurrentWidget(splash)
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")
@@ -708,6 +863,35 @@ if __name__ == "__main__":
                 background-color: #BFCCB5;
             }
         """)
+    
+
+    stacked_widget.setStyleSheet('''
+        #MyWidget {
+                background-color: #BFCCB5;
+        }
+
+        QFrame {
+            background-color: #2F4454;
+            background-image: url(Splash.png);
+            background-repeat: no-repeat; 
+            background-position: center;
+            color: rgb(220, 220, 220);
+        }
+
+        QProgressBar {
+            background-color: #1A1A1A;
+            color: rgb(84, 84, 84);
+            border-style: none;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 30px;
+        }
+
+        QProgressBar::chunk {
+            border-radius: 10px;
+            background-color: #FFFFFF;
+        }
+    ''')
 
     # Show the stacked widget
 

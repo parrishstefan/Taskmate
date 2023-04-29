@@ -576,6 +576,60 @@ class Page3(QWidget):
         # Calendar View
         self.calendarView = QCalendarWidget(self)
         self.calendarView.setSelectedDate(self.calendarView.selectedDate())
+        self.calendarView.setStyleSheet("""
+                                    QCalendarWidget QToolButton {
+  	height: 50px;
+  	width: 80px;
+  	color: white;
+  	font-size: 24px;
+  	icon-size: 56px, 56px;
+  	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #3F52BD, stop: 1 #CA4683); 
+  }
+  QCalendarWidget QMenu {
+  	width: 150px;
+  	left: 20px;
+  	color: white;
+  	font-size: 18px;
+  	background-color: rgb(255, 255, 255);
+  }
+  QCalendarWidget QSpinBox { 
+  	width: 150px; 
+  	font-size:24px; 
+  	color: white; 
+  	background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #3F52BD, stop: 1 #CA4683); 
+  	selection-background-color: rgb(255, 255, 255);
+  	selection-color: rgb(255, 255, 255);
+  }
+  QCalendarWidget QSpinBox::up-button { subcontrol-origin: border;  subcontrol-position: top right;  width:65px; }
+  QCalendarWidget QSpinBox::down-button {subcontrol-origin: border; subcontrol-position: bottom right;  width:65px;}
+  QCalendarWidget QSpinBox::up-arrow { width:56px;  height:56px; }
+  QCalendarWidget QSpinBox::down-arrow { width:56px;  height:56px; }
+   
+  /* header row */
+  QCalendarWidget QWidget { alternate-background-color: rgb(255, 255, 255); }
+   
+  /* normal days */
+  QCalendarWidget QAbstractItemView:enabled 
+  {
+  	font-size:24px;  
+  	color: rgb(180, 180, 180);  
+  	background-color: white;  
+  	selection-background-color: black; 
+  	selection-color: rgb(0, 255, 0); 
+  }
+   
+  /* days in other months */
+  /* navigation bar */
+QCalendarWidget QWidget#qt_calendar_navigationbar
+{ 
+  background-color:qlineargradient(x1:0, y1:0, x2:0, y2:1, stop: 0 #3F52BD, stop: 1 #CA4683); ; 
+}
+
+QCalendarWidget QAbstractItemView:disabled 
+{ 
+color: rgb(255, 255, 255); 
+}
+                                """)
         self.calendarView.move(270, 150)
         self.calendarView.clicked.connect(self.on_date_clicked)
 
@@ -606,7 +660,7 @@ class Page3(QWidget):
                                     }
                                 """)
         #self.descriptionTextBrowser.move(600, 150)
-        self.descriptionTextBrowser.setGeometry(600, 150, 230, 200)
+        self.descriptionTextBrowser.setGeometry(800, 150, 230, 200)
 
         # Schedule List Trial
         self.scheduleListCal = QListWidget(self)
@@ -802,7 +856,7 @@ class SplashScreen(QWidget):
             self.timer.stop()
             self.close()
 
-            time.sleep(1)
+            time.sleep(20)
 
             stacked_widget.setCurrentWidget(page1)
             stacked_widget.setStyleSheet('''
@@ -885,7 +939,7 @@ if __name__ == "__main__":
     stacked_widget.addWidget(page2)
     stacked_widget.addWidget(page3)
     #stacked_widget.setCurrentWidget(page1)
-    stacked_widget.setCurrentWidget(splash)
+    stacked_widget.setCurrentWidget(page3)
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")

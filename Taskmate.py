@@ -1,5 +1,4 @@
 # TODO AFTER EVERYTHING IS DONE
-# INPUT VALIDATION - FROM->TO TIME MUST BE POSITIVE, HOURS MUST BE > 0, EVENT AND DESCRIPTION CAN'T BE NULL
 # CONVERT FROM->TO TIME TO INTEGERS FOR ALGO
 # FIGURE OUT A GOOD AMOUNT OF POTENTIAL SCHEDULES
 # MAYBE DO A LONG LIST OF SCROLLABLE WITH JUST #S FOR EACH, THEN USER INPUTS A NUMBER?
@@ -145,6 +144,9 @@ class Page1(QWidget):
     def addTask(self, eventTextBox, descriptionTextBox, hoursBox, fromTimeEdit, toTimeEdit, dayLabel, dayComboBox, timeLabel, toLabel):
         global eventsAdded
 
+        if not self.validate_inputs(eventTextBox, hoursBox, descriptionTextBox, fromTimeEdit, toTimeEdit):
+            return
+
         dayLabel.move(-5000,-5000)
         dayComboBox.move(-5000,-5000)
         timeLabel.move(-5000, -5000)
@@ -181,6 +183,8 @@ class Page1(QWidget):
         # print(day)
 
     def goToPage2(self, dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel):
+
+
         self.generateSchedule()
 
         self.page2.updateScheduleList()
@@ -236,6 +240,33 @@ class Page1(QWidget):
                     print()
                     schedulesArr[-1] = schedulesArr[-1][:-1]
                     print(schedulesArr)
+
+    def validate_inputs(self, eventTextBox, hoursBox, descriptionTextBox, fromTimeEdit, toTimeEdit):
+        event = eventTextBox.text()
+        hours = hoursBox.value()
+        description = descriptionTextBox.text()
+        from_time = int(fromTimeEdit.text()[:2])
+        to_time = int(toTimeEdit.text()[:2])
+
+
+        if not event:
+            QMessageBox.warning(self, "Invalid input", "Event name cannot be empty.")
+            return False
+
+        if hours <= 0:
+            QMessageBox.warning(self, "Invalid input", "Hours must be greater than 0.")
+            return False
+
+        if from_time >= to_time:
+            QMessageBox.warning(self, "Invalid input", "Start time must be less than finish time.")
+            return False
+        
+        if not description:
+            QMessageBox.warning(self, "Invalid input", "Description cannot be empty.")
+            return False
+
+        return True
+
 
 # Pop up window
 

@@ -827,7 +827,7 @@ class SplashScreen(QWidget):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.loading)
-        self.timer.start(2)
+        self.timer.start(15)
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -856,36 +856,36 @@ class SplashScreen(QWidget):
             self.timer.stop()
             self.close()
 
-            time.sleep(20)
+            time.sleep(1)
 
             stacked_widget.setCurrentWidget(page1)
             stacked_widget.setStyleSheet('''
-        #MyWidget {
-                background-color: #BFCCB5;
-        }
-        
-        QFrame {
-            background-color: #BFCCB5;
-            background-image: url(background.png);
-            background-repeat: no-repeat; 
-            background-position: center;
-            color: rgb(220, 220, 220);
-        }
+                                        #MyWidget {
+                                                background-color: #BFCCB5;
+                                        }
+                                        
+                                        QFrame {
+                                            background-color: #BFCCB5;
+                                            background-image: url(background.png);
+                                            background-repeat: no-repeat; 
+                                            background-position: center;
+                                            color: rgb(220, 220, 220);
+                                        }
 
-        QProgressBar {
-            background-color: #1A1A1A;
-            color: rgb(84, 84, 84);
-            border-style: none;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 30px;
-        }
+                                        QProgressBar {
+                                            background-color: #1A1A1A;
+                                            color: rgb(84, 84, 84);
+                                            border-style: none;
+                                            border-radius: 10px;
+                                            text-align: center;
+                                            font-size: 30px;
+                                        }
 
-        QProgressBar::chunk {
-            border-radius: 10px;
-            background-color: #FFFFFF;
-        }
-    ''')
+                                        QProgressBar::chunk {
+                                            border-radius: 10px;
+                                            background-color: #FFFFFF;
+                                        }
+                                    ''')
 
         self.counter += 1
 
@@ -943,13 +943,6 @@ if __name__ == "__main__":
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")
-    stacked_widget.setStyleSheet("""
-            #MyWidget {
-                background-color: #BFCCB5;
-            }
-        """)
-    
-
     stacked_widget.setStyleSheet('''
         #MyWidget {
                 background-color: #BFCCB5;

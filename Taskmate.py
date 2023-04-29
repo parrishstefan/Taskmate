@@ -28,6 +28,7 @@ from itertools import permutations
 userInfo = {"Activity": [], "Description": [],"Hours": [], "Day": []}
 available_hours = {}
 tasks = {}
+descriptionsGlob = {}
 schedulesArr = []
 completeSchedule = {"Monday": "", "Tuesday": "", "Wednesday": "", "Thursday": "", "Friday": "", "Saturday": "", "Sunday": ""}
 scheduleIndex = 0
@@ -162,6 +163,8 @@ class Page1(QWidget):
         userInfo["Description"].append(description)
         userInfo["Hours"].append(hours)
         userInfo["Day"].append(day)
+
+        descriptionsGlob[event] = description
 
         available_hours[day] = (fromTime, toTime)
 
@@ -314,9 +317,16 @@ class Page3(QWidget):
         self.calendarView.move(250, 150)
         self.calendarView.clicked.connect(self.on_date_clicked)
 
-        # Schedule Selected TextBox
-        self.scheduleTextBrowser = QTextBrowser(self)
-        self.scheduleTextBrowser.move(50, 150)
+        # Description Selected TextBox
+        self.descriptionTextBrowser = QTextBrowser(self)
+        self.descriptionTextBrowser.move(600, 150)
+
+        # Schedule List Trial
+        self.scheduleListCal = QListWidget(self)
+        self.scheduleListCal.move(50, 150)
+        self.scheduleListCal.currentItemChanged.connect(self.indexChanged)
+        
+        
         
 
         button = QPushButton("Back", self)
@@ -363,8 +373,47 @@ class Page3(QWidget):
         daySelected = int(self.calendarView.selectedDate().dayOfWeek())-1
         print("heressss")
         print(completeSchedule[indexArr[daySelected]])
+        print("here2")
 
-        self.scheduleTextBrowser.setText(completeSchedule[indexArr[daySelected]])
+        #self.descriptionTextBrowser.setText(completeSchedule[indexArr[daySelected]])
+
+        self.scheduleListCal.clear()
+        print(schedulesArr[scheduleIndex])
+
+        if(completeSchedule[indexArr[daySelected]] != ""):
+            tempArr = []
+            for sched in completeSchedule[indexArr[daySelected]].splitlines():
+                tempArr.append(sched)
+
+            print(tempArr)
+            self.scheduleListCal.addItems(tempArr)
+    
+    def indexChanged(self, current, previous):
+        # Gets the index of the selected schedule
+        
+        print("textChanged")
+        print(self.scheduleListCal.row(current))
+        scheduleIndex = self.scheduleListCal.row(current)
+
+        if(self.scheduleListCal.currentItem()):
+            selectedRow = self.scheduleListCal.currentItem().text()
+            print(f"YOYO {selectedRow}")
+
+            activity = ""
+            for tempEvent in selectedRow.splitlines():
+                var1, var4 = tempEvent.strip().split('->')
+                activity = var1
+            
+            print(activity)
+
+            # activityIndex = userInfo["Activity"].index(activity)
+
+
+            # print(userInfo["Description"][activityIndex])
+            # self.descriptionTextBrowser.setText(userInfo["Description"][activityIndex])
+            self.descriptionTextBrowser.setText(descriptionsGlob[activity])
+
+        
         #print(self.calendarView.selectedDate().dayOfWeek()) #1 is Monday #7 is Sunday
 
 

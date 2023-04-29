@@ -527,7 +527,8 @@ class Page2(QWidget):
         self.dayLabel.move(610, 200)
 
         # Currently generates schedule, will change to auto do on page load or make it the submit button from page 1
-        submitButton = QPushButton("next", self)
+        submitButton = QPushButton("Next", self)
+        submitButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
         submitButton.setObjectName("ModernButton2")
         submitButton.setStyleSheet("""
                     QPushButton#ModernButton2 {
@@ -537,10 +538,10 @@ class Page2(QWidget):
                         padding: 8px 16px;
                         border-radius: 16px;
                     }
-                    QPushButton#ModernButton:hover {
+                    QPushButton#ModernButton2:hover {
                         background-color: #2980B9;
                     }
-                    QPushButton#ModernButton:pressed {
+                    QPushButton#ModernButton2:pressed {
                         background-color: #1B4F72;
                     }
                 """)
@@ -673,6 +674,7 @@ class Page3(QWidget):
                                     }
                                 """)
         self.calendarView.move(400, 250)
+        self.calendarView.setGeometry(380,250, 520,330)
         self.calendarView.clicked.connect(self.on_date_clicked)
 
         # Description Selected TextBox
@@ -702,7 +704,7 @@ class Page3(QWidget):
                                     }
                                 """)
         #self.descriptionTextBrowser.move(600, 150)
-        self.descriptionTextBrowser.setGeometry(920, 250, 300, 310)
+        self.descriptionTextBrowser.setGeometry(930, 250, 300, 310)
 
         # Schedule List Trial
         self.scheduleListCal = QListWidget(self)
@@ -733,25 +735,26 @@ class Page3(QWidget):
         self.scheduleListCal.setGeometry(50, 250, 300, 310)
         self.scheduleListCal.currentItemChanged.connect(self.indexChanged)
 
-        button = QPushButton("Back", self)
-        button.setObjectName("ModernButton2")
-        button.setStyleSheet("""
-                            QPushButton#ModernButton2 {
-                                background-color: #3498DB;
-                                color: white;
-                                border: none;
-                                padding: 8px 16px;
-                                border-radius: 16px;
-                            }
-                            QPushButton#ModernButton:hover {
-                                background-color: #2980B9;
-                            }
-                            QPushButton#ModernButton:pressed {
-                                background-color: #1B4F72;
-                            }
-                        """)
-        button.move(50, 650)
-        button.clicked.connect(self.go_to_page1)
+        backButton = QPushButton("Back", self)
+        backButton.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+        backButton.setObjectName("ModernButton2")
+        backButton.setStyleSheet("""
+                    QPushButton#ModernButton2 {
+                        background-color: #3498DB;
+                        color: white;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 16px;
+                    }
+                    QPushButton#ModernButton2:hover {
+                        background-color: #2980B9;
+                    }
+                    QPushButton#ModernButton2:pressed {
+                        background-color: #1B4F72;
+                    }
+                """)
+        backButton.move(50, 650)
+        backButton.clicked.connect(self.go_to_page1)
 
     
     def updateCalendar(self):
@@ -930,15 +933,6 @@ class SplashScreen(QWidget):
                                     ''')
 
         self.counter += 1
-
-class MyApp(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.window_width, self.window_height = 1280, 720
-        self.setMinimumSize(self.window_width, self.window_height)
-
-        layout = QVBoxLayout()
-        self.setLayout(layout)
 
 
 if __name__ == "__main__":

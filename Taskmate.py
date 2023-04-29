@@ -316,8 +316,44 @@ class Page1(QWidget):
                         background-color: #470000;
                     }
                 """)
-        changelogButton.clicked.connect(lambda: QMessageBox.information(None, '', 'Version 1.0 (March 7th, 2023)'
-                                                                                  '\n'
+        changelogButton.clicked.connect(lambda: QMessageBox.information(None, '', 'Version 2.0 (April 29th, 2023)'
+                                                                                  '\n- Splashscreen Added'
+                                                                                  '\n- Page 2 and 3 UI Finished'
+                                                                                  '\n- New Font added cy grotesk key demi'
+                                                                                  '\n- Calendar UI Changed'
+                                                                                  '\n- Added ProgressBar to Splashscreen'
+                                                                                  '\n- Added color to buttons'
+                                                                                  '\n- Added different colors for interactions with buttons'
+                                                                                  '\n- Background image created'
+                                                                                  '\n- Centered Page 1-3 Forms to better fit with new background'
+                                                                                  '\n\nVersion 1.7 (April 27th, 2023)'
+                                                                                  '\n- Page 1 UI Finished'
+                                                                                  '\n- New Textbox UI'
+                                                                                  '\n- New Button UI'
+                                                                                  '\n- Changelogs added to UI'
+                                                                                  '\n\nVersion 1.6 (April 26th, 2023)'
+                                                                                  '\n- Page 3 Created'
+                                                                                  '\n- QCalendar Added, QList Added, QTextbox Added'
+                                                                                  '\n\nVersion 1.5 (April 25th, 2023)'
+                                                                                  '\n- Page 2 Finished with limited UI Elements'
+                                                                                  '\n- Changed output to QListWidget for better UX'
+                                                                                  '\n- Added ability to see all permutations'
+                                                                                  '\n\nVersion 1.4 (April 20th, 2023)🔥'
+                                                                                  '\n- Page 2 Created with limited UI elements'
+                                                                                  '\n- Algorithm Finished'
+                                                                                  '\n- Need to figure out how to parse user data'
+                                                                                  '\n\nVersion 1.3 (April 15th, 2023)'
+                                                                                  '\n- Page 1 Finished with limited UI elements'
+                                                                                  '\n- Most data hardcoded for testing'
+                                                                                  '\n- Need to figure out how to get time from user'
+                                                                                  '\n\nVersion 1.2 (April 7th, 2023)'
+                                                                                  '\n- First Page created with limited UI elements'
+                                                                                  '\n- Figuring out how to output information from user'
+                                                                                  '\n- Algorithm still needs to be finished'
+                                                                                  '\n\nVersion 1.1 (April 1st, 2023)'
+                                                                                  '\n- Minor Updates to UI'
+                                                                                  '\n- Font and Style Changes'
+                                                                                  '\n\nVersion 1.0 (March 7th, 2023)'
                                                                                   '\n- Task creation page developed with limited UI elements'
                                                                                   '\n- User input validation'
                                                                                   '\n- Multiple task creation capabilities added'
@@ -481,14 +517,14 @@ class Page2(QWidget):
         scheduleLabel.move(450, 30)
 
         self.dayLabel = QLabel("", self)
-        self.dayLabel.setFont(QFont("Tahoma", 18))
+        self.dayLabel.setFont(QFont("Tahoma", 20))
         self.dayLabel.setStyleSheet("""
                     QLabel {
                         color: black;
                         background: rgba(0,0,0,0);
                     }
                 """)
-        self.dayLabel.move(300, 170)
+        self.dayLabel.move(610, 200)
 
         # Currently generates schedule, will change to auto do on page load or make it the submit button from page 1
         submitButton = QPushButton("next", self)
@@ -508,7 +544,7 @@ class Page2(QWidget):
                         background-color: #1B4F72;
                     }
                 """)
-        submitButton.move(300, 400)
+        submitButton.move(620, 600)
         submitButton.clicked.connect(self.goToPage3)
         #button.clicked.connect(self.generateSchedule)
 
@@ -537,7 +573,8 @@ class Page2(QWidget):
                         border-radius: 16px;
                     }
                 """)
-        self.scheduleList.move(300, 200)
+        #self.scheduleList.move(300, 200)
+        self.scheduleList.setGeometry(450, 250, 400, 300)
         self.scheduleList.currentItemChanged.connect(self.indexChanged)
         #self.scheduleList.currentItemChanged.connect(self.textChanged)
 
@@ -569,21 +606,14 @@ class Page3(QWidget):
         super().__init__()
 
         scheduleLabel = QLabel("Your Schedule", self)
+        scheduleLabel.setFont(QFont("cy grotesk key demi", 35))
         scheduleLabel.setStyleSheet("""
                     QLabel {
-                        color: black;
+                        color: white;
                         background: rgba(0,0,0,0);
                     }
                 """)
-        scheduleLabel.move(400,20)
-
-        # Font
-        font1 = QFont()
-        font1.setBold(True)
-        font1.setPointSize(20)
-
-        # Set Font
-        scheduleLabel.setFont(font1)
+        scheduleLabel.move(500, 30)
 
         # Calendar View
         self.calendarView = QCalendarWidget(self)
@@ -642,7 +672,7 @@ class Page3(QWidget):
                                     color: rgb(255, 255, 255); 
                                     }
                                 """)
-        self.calendarView.move(270, 150)
+        self.calendarView.move(400, 250)
         self.calendarView.clicked.connect(self.on_date_clicked)
 
         # Description Selected TextBox
@@ -672,7 +702,7 @@ class Page3(QWidget):
                                     }
                                 """)
         #self.descriptionTextBrowser.move(600, 150)
-        self.descriptionTextBrowser.setGeometry(800, 150, 230, 200)
+        self.descriptionTextBrowser.setGeometry(920, 250, 300, 310)
 
         # Schedule List Trial
         self.scheduleListCal = QListWidget(self)
@@ -699,8 +729,8 @@ class Page3(QWidget):
                                 border-radius: 16px;
                             }
                         """)
-        self.scheduleListCal.move(10, 150)
-        self.scheduleListCal.setGeometry(10, 150, 230, 200)
+        #self.scheduleListCal.move(10, 150)
+        self.scheduleListCal.setGeometry(50, 250, 300, 310)
         self.scheduleListCal.currentItemChanged.connect(self.indexChanged)
 
         button = QPushButton("Back", self)
@@ -720,7 +750,7 @@ class Page3(QWidget):
                                 background-color: #1B4F72;
                             }
                         """)
-        button.move(50, 400)
+        button.move(50, 650)
         button.clicked.connect(self.go_to_page1)
 
     
@@ -878,7 +908,7 @@ class SplashScreen(QWidget):
                                         
                                         QFrame {
                                             background-color: #BFCCB5;
-                                            background-image: url(backgroundline.png);
+                                            background-image: url(background.png);
                                             background-repeat: no-repeat; 
                                             background-position: center;
                                             color: rgb(220, 220, 220);

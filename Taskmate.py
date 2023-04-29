@@ -499,10 +499,10 @@ class Page2(QWidget):
                         padding: 8px 16px;
                         border-radius: 16px;
                     }
-                    QToolButton#ModernButton:hover {
+                    QPushButton#ModernButton:hover {
                         background-color: #2980B9;
                     }
-                    QToolButton#ModernButton:pressed {
+                    QPushButton#ModernButton:pressed {
                         background-color: #1B4F72;
                     }
                 """)
@@ -711,10 +711,10 @@ class Page3(QWidget):
                                 padding: 8px 16px;
                                 border-radius: 16px;
                             }
-                            QToolButton#ModernButton:hover {
+                            QPushButton#ModernButton:hover {
                                 background-color: #2980B9;
                             }
-                            QToolButton#ModernButton:pressed {
+                            QPushButton#ModernButton:pressed {
                                 background-color: #1B4F72;
                             }
                         """)

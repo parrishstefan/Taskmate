@@ -4,6 +4,8 @@
 # FIGURE OUT A GOOD AMOUNT OF POTENTIAL SCHEDULES
 # MAYBE DO A LONG LIST OF SCROLLABLE WITH JUST #S FOR EACH, THEN USER INPUTS A NUMBER?
 
+#maybe remove submit button until first task added on page 1
+#event name can't be the same as other task events
 
 
 # NEW STUFF NEEDED FOR TOMORROW
@@ -16,9 +18,10 @@ import sys
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton,
                              QLabel, QStackedWidget, QLineEdit, QCalendarWidget,
                              QSplashScreen, QMainWindow, QMessageBox, QDateTimeEdit, 
-                             QScrollArea, QSpinBox, QComboBox, QTimeEdit, QListWidget)
+                             QScrollArea, QSpinBox, QComboBox, QTimeEdit, QListWidget,
+                             QTextBrowser)
 from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QPixmap, QColor, QPalette
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QDate
 
 from itertools import permutations
 
@@ -26,6 +29,8 @@ userInfo = {"Activity": [], "Description": [],"Hours": [], "Day": []}
 available_hours = {}
 tasks = {}
 schedulesArr = []
+completeSchedule = {"Monday": "", "Tuesday": "", "Wednesday": "", "Thursday": "", "Friday": "", "Saturday": "", "Sunday": ""}
+scheduleIndex = 0
 eventsAdded = 0
 
 class Page1(QWidget):
@@ -175,7 +180,7 @@ class Page1(QWidget):
     def goToPage2(self, dayLabel, dayComboBox, timeLabel, fromTimeEdit, toTimeEdit, toLabel):
         self.generateSchedule()
 
-        self.page2.updateScheduleList("here")
+        self.page2.updateScheduleList()
 
         stacked_widget.setCurrentWidget(page2)
 
@@ -220,58 +225,72 @@ class Page1(QWidget):
                     for task, (start_time, end_time) in schedule.items():
 
                         if(len(schedulesArr) > i):
-                            schedulesArr[i] += f"{task}: {start_time}:00-{end_time}:00\n"
+                            schedulesArr[i] += f"{task}->{start_time}:00-{end_time}:00\n"
                         else:
-                            schedulesArr.append(f"{task}: {start_time}:00-{end_time}:00\n")
+                            schedulesArr.append(f"{task}->{start_time}:00-{end_time}:00\n")
                         
                         print(f"    {task}: {start_time}-{end_time}")
                     print()
                     schedulesArr[-1] = schedulesArr[-1][:-1]
+                    print(schedulesArr)
 
 # Pop up window
 
 
 # Page 2
 class Page2(QWidget):
-    def __init__(self):
+    def __init__(self, page3):
         super().__init__()
 
-        label4 = QLabel("Choose Your Schedule", self)
-        label4.move(350, 20)
+        self.page3 = page3
 
-        label0 = QLabel("Need algorithm here", self)
-        label0.move(350, 150)
+        scheduleLabel = QLabel("Choose Your Schedule", self)
+        scheduleLabel.move(350, 20)
+
+        self.dayLabel = QLabel("", self)
+        self.dayLabel.move(50, 180)
 
         # Font
-
-        font1 = QFont()
-        font1.setBold(True)
-        font1.setPointSize(20)
+        headerFont = QFont()
+        headerFont.setBold(True)
+        headerFont.setPointSize(20)
 
         # Set Font
-        label4.setFont(font1)
+        scheduleLabel.setFont(headerFont)
 
         # Currently generates schedule, will change to auto do on page load or make it the submit button from page 1
-        button = QPushButton("next", self)
-        button.move(50, 400)
-        button.clicked.connect(self.go_to_page3)
+        submitButton = QPushButton("next", self)
+        submitButton.move(50, 400)
+        submitButton.clicked.connect(self.goToPage3)
         #button.clicked.connect(self.generateSchedule)
 
         # Load schedule
-
-        event1 = "event1"
-        event2 = "event2"
-        time1 = "9-13"
-        time2 = "13-14"
-
         self.scheduleList = QListWidget(self)
-        #self.scheduleList.addItems([f"{event1} from {time1}\n{event2} from {time2}"])
         self.scheduleList.move(50, 200)
-    
-    def updateScheduleList(self, schedule):
-        self.scheduleList.addItems(schedulesArr)
+        self.scheduleList.currentItemChanged.connect(self.indexChanged)
+        #self.scheduleList.currentItemChanged.connect(self.textChanged)
 
-    def go_to_page3(self):
+    def textChanged(self, i):
+        # Gets the text of the selected schedule
+        print("indexChanged")
+        print(i.text())
+
+    def indexChanged(self, current, previous):
+        # Gets the index of the selected schedule
+        global scheduleIndex
+        
+        print("textChanged")
+        print(self.scheduleList.row(current))
+        scheduleIndex = self.scheduleList.row(current)
+
+    
+    def updateScheduleList(self):
+        self.scheduleList.clear()
+        self.scheduleList.addItems(schedulesArr)
+        self.dayLabel.setText(userInfo["Day"][0])
+
+    def goToPage3(self):
+        self.page3.updateCalendar()
         stacked_widget.setCurrentWidget(page3)
 
 class Page3(QWidget):
@@ -282,7 +301,6 @@ class Page3(QWidget):
         label4.move(400,20)
 
         # Font
-
         font1 = QFont()
         font1.setBold(True)
         font1.setPointSize(20)
@@ -291,20 +309,79 @@ class Page3(QWidget):
         label4.setFont(font1)
 
         # Calendar View
-        cal = QCalendarWidget(self)
+        self.calendarView = QCalendarWidget(self)
+        self.calendarView.setSelectedDate(self.calendarView.selectedDate())
+        self.calendarView.move(250, 150)
+        self.calendarView.clicked.connect(self.on_date_clicked)
 
-        cal.setSelectedDate(cal.selectedDate())
-        label5 = QLabel()
-        label5.setText("Selected Date: " + cal.selectedDate().toString())
-        cal.move(250, 150)
+        # Schedule Selected TextBox
+        self.scheduleTextBrowser = QTextBrowser(self)
+        self.scheduleTextBrowser.move(50, 150)
+        
 
         button = QPushButton("Back", self)
         button.move(50, 400)
         button.clicked.connect(self.go_to_page1)
 
+    
+    def updateCalendar(self):
+        global scheduleIndex
+        global eventsAdded
+
+        print("CALENDAR")
+
+        newSchedules = []
+        activity = ""
+        time = ""
+
+        day = userInfo["Day"][0]
+        schedulesStr = schedulesArr[scheduleIndex]
+        
+        for schedule in schedulesStr.splitlines():
+            activity, time = schedule.strip().split('->')
+            newSchedules.append((activity, time))
+
+        completeSchedule[day] = (schedulesStr)
+
+        print(schedulesArr[scheduleIndex])
+        print("HERE")
+        print(newSchedules)
+
+        # for year in range(self.calendarView.minimumDate().year(), self.calendarView.maximumDate().year() + 1):
+        #     for month in range(1, 13):
+        #         for day in range(1, 32):
+        #             # Get the QDate object for the current day
+        #             qdate = QDate(year, month, day)
+
+        #             # Check if the day is a Monday
+        #             if qdate.dayOfWeek() == Qt.DayOfWeek.Monday:
+        #                 # Add information to the day using setToolTip
+        #                 self.calendarView.setDateToolTip(qdate, schedulesStr.format(qdate.toString(Qt.DateFormat.ISODate)))
+
+    def on_date_clicked(self):
+        indexArr = list(completeSchedule.keys())
+        daySelected = int(self.calendarView.selectedDate().dayOfWeek())-1
+        print("heressss")
+        print(completeSchedule[indexArr[daySelected]])
+
+        self.scheduleTextBrowser.setText(completeSchedule[indexArr[daySelected]])
+        #print(self.calendarView.selectedDate().dayOfWeek()) #1 is Monday #7 is Sunday
 
 
     def go_to_page1(self):
+        global userInfo
+        global available_hours
+        global tasks
+        global scheduleIndex
+        global schedulesArr
+        global eventsAdded
+
+        userInfo = {"Activity": [], "Description": [],"Hours": [], "Day": []}
+        available_hours = {}
+        tasks = {}
+        schedulesArr = []
+        scheduleIndex = 0
+        eventsAdded = 0
         stacked_widget.setCurrentWidget(page1)
 
 
@@ -313,9 +390,9 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     # Create the pages
-    page2 = Page2()
-    page1 = Page1(page2)
     page3 = Page3()
+    page2 = Page2(page3)
+    page1 = Page1(page2)
 
     # Create the stacked widget and add the pages to it
     stacked_widget = QStackedWidget()

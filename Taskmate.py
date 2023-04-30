@@ -1,11 +1,3 @@
-# TODO AFTER EVERYTHING IS DONE
-# AT BEGINNING OF INITIALIZATION PUT SUBMIT BUTTON OFF THE SCREEN
-#   THEN ONCE ADD TASK IS PRESSED PUT IT ON SCREEN
-#       ONCE SUBMIT IS PRESSED, PUT IT BACK OFF SCREEN AGAIN FOR NEXT ROUND
-# EVERY TIME ADD TASK IS PRESSED OR SUBMIT IS PRESSED, RESET EVENT AND DESCRIPTION TO EMPTY
-
-
-
 import time
 import sys
 from PyQt6.QtWidgets import (QApplication, QWidget, QVBoxLayout, QPushButton,
@@ -978,6 +970,10 @@ if __name__ == "__main__":
     stacked_widget.addWidget(page3)
     #stacked_widget.setCurrentWidget(page1)
     stacked_widget.setCurrentWidget(splash)
+
+    stacked_widget.setWindowTitle("Taskmate")
+    stacked_widget.setWindowIcon(QIcon("icon.png"))
+
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")

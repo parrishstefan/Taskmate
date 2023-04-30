@@ -674,7 +674,9 @@ class Page3(QWidget):
                                     }
                                 """)
         self.calendarView.move(400, 250)
-        self.calendarView.setGeometry(380,250, 520,330)
+        #self.calendarView.setGeometry(380,250, 520,330)
+        self.calendarView.setGeometry(390,235, 500,340)
+        #self.calendarView.adjustSize()
         self.calendarView.clicked.connect(self.on_date_clicked)
 
         # Description Selected TextBox
@@ -872,7 +874,7 @@ class SplashScreen(QWidget):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.loading)
-        self.timer.start(1)
+        self.timer.start(15)
 
     def initUI(self):
         layout = QVBoxLayout()
@@ -975,7 +977,7 @@ if __name__ == "__main__":
     stacked_widget.addWidget(page2)
     stacked_widget.addWidget(page3)
     #stacked_widget.setCurrentWidget(page1)
-    stacked_widget.setCurrentWidget(page1)
+    stacked_widget.setCurrentWidget(splash)
 
     stacked_widget.setGeometry(300, 300, 1280, 720)
     stacked_widget.setObjectName("MyWidget")

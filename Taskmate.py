@@ -10,12 +10,23 @@ from PyQt6.QtCore import Qt, QDate, QTimer
 
 from itertools import permutations
 
+import json
+
+# Open the JSON file and read its contents
+with open('descriptions.json', 'r') as file:
+    descriptionsGlob = json.load(file)
+
+with open('schedule.json', 'r') as file:
+    completeSchedule = json.load(file)
+
+
+
 userInfo = {"Activity": [], "Description": [],"Hours": [], "Day": []}
 available_hours = {}
 tasks = {}
-descriptionsGlob = {}
+#descriptionsGlob = {}
 schedulesArr = []
-completeSchedule = {"Monday": "", "Tuesday": "", "Wednesday": "", "Thursday": "", "Friday": "", "Saturday": "", "Sunday": ""}
+#completeSchedule = {"Monday": "", "Tuesday": "", "Wednesday": "", "Thursday": "", "Friday": "", "Saturday": "", "Sunday": ""}
 scheduleIndex = 0
 eventsAdded = 0
 
@@ -385,6 +396,10 @@ class Page1(QWidget):
         userInfo["Day"].append(day)
 
         descriptionsGlob[event] = description
+        
+        # Open a file for writing and write the data to it in JSON format
+        with open('descriptions.json', 'w') as file:
+            json.dump(descriptionsGlob, file)
 
         available_hours[day] = (fromTime, toTime)
 
@@ -419,7 +434,7 @@ class Page1(QWidget):
 
         submitButton.move(-5000, -5000)
 
-        print(userInfo)
+        #print(userInfo)
 
     def generateSchedule(self):
         # generate all possible task orders
@@ -441,14 +456,14 @@ class Page1(QWidget):
                 else:
                     schedules[day].append(schedule)
         
-        # print all possible schedules for each day
+        # #print all possible schedules for each day
         for day, day_schedules in schedules.items():
-            print(f"{day}:") # this will be a label above the listview
+            #print(f"{day}:") # this will be a label above the listview
             if len(day_schedules) == 0:
                 print("  No valid schedules found.")
             else:
                 for i, schedule in enumerate(day_schedules):
-                    print(f"  Schedule {i + 1}:")
+                    #print(f"  Schedule {i + 1}:")
                     for task, (start_time, end_time) in schedule.items():
 
                         if(len(schedulesArr) > i):
@@ -456,10 +471,10 @@ class Page1(QWidget):
                         else:
                             schedulesArr.append(f"{task}->{start_time}:00-{end_time}:00\n")
                         
-                        print(f"    {task}: {start_time}-{end_time}")
-                    print()
+                        #print(f"    {task}: {start_time}-{end_time}")
+                    #print()
                     schedulesArr[-1] = schedulesArr[-1][:-1]
-                    print(schedulesArr)
+                    #print(schedulesArr)
 
     def validate_inputs(self, eventTextBox, hoursBox, descriptionTextBox, fromTimeEdit, toTimeEdit):
         event = eventTextBox.text()
@@ -573,15 +588,16 @@ class Page2(QWidget):
 
     def textChanged(self, i):
         # Gets the text of the selected schedule
-        print("indexChanged")
-        print(i.text())
+        #print("indexChanged")
+        #print(i.text())
+        pass
 
     def indexChanged(self, current, previous):
         # Gets the index of the selected schedule
         global scheduleIndex
         
-        print("textChanged")
-        print(self.scheduleList.row(current))
+        #print("textChanged")
+        #print(self.scheduleList.row(current))
         scheduleIndex = self.scheduleList.row(current)
 
     
@@ -755,7 +771,7 @@ class Page3(QWidget):
         global scheduleIndex
         global eventsAdded
 
-        print("CALENDAR")
+        #print("CALENDAR")
 
         newSchedules = []
         activity = ""
@@ -770,9 +786,14 @@ class Page3(QWidget):
 
         completeSchedule[day] = (schedulesStr)
 
-        print(schedulesArr[scheduleIndex])
-        print("HERE")
-        print(newSchedules)
+        # Open a file for writing and write the data to it in JSON format
+        with open('schedule.json', 'w') as file:
+            json.dump(completeSchedule, file)
+
+
+        #print(schedulesArr[scheduleIndex])
+        #print("HERE")
+        #print(newSchedules)
 
         # for year in range(self.calendarView.minimumDate().year(), self.calendarView.maximumDate().year() + 1):
         #     for month in range(1, 13):
@@ -788,40 +809,38 @@ class Page3(QWidget):
     def on_date_clicked(self):
         indexArr = list(completeSchedule.keys())
         daySelected = int(self.calendarView.selectedDate().dayOfWeek())-1
-        print("heressss")
-        print(completeSchedule[indexArr[daySelected]])
-        print("here2")
+        #print(completeSchedule[indexArr[daySelected]])
 
         #self.descriptionTextBrowser.setText(completeSchedule[indexArr[daySelected]])
 
         self.scheduleListCal.clear()
-        print(schedulesArr[scheduleIndex])
+        #print(schedulesArr[scheduleIndex])
 
         if(completeSchedule[indexArr[daySelected]] != ""):
             tempArr = []
             for sched in completeSchedule[indexArr[daySelected]].splitlines():
                 tempArr.append(sched)
 
-            print(tempArr)
+            #print(tempArr)
             self.scheduleListCal.addItems(tempArr)
     
     def indexChanged(self, current, previous):
         # Gets the index of the selected schedule
         
-        print("textChanged")
-        print(self.scheduleListCal.row(current))
+        #print("textChanged")
+        #print(self.scheduleListCal.row(current))
         scheduleIndex = self.scheduleListCal.row(current)
 
         if(self.scheduleListCal.currentItem()):
             selectedRow = self.scheduleListCal.currentItem().text()
-            print(f"YOYO {selectedRow}")
+            #print(f"YOYO {selectedRow}")
 
             activity = ""
             for tempEvent in selectedRow.splitlines():
                 var1, var4 = tempEvent.strip().split('->')
                 activity = var1
             
-            print(activity)
+            #print(activity)
 
             # activityIndex = userInfo["Activity"].index(activity)
 
@@ -829,6 +848,9 @@ class Page3(QWidget):
             # print(userInfo["Description"][activityIndex])
             # self.descriptionTextBrowser.setText(userInfo["Description"][activityIndex])
             self.descriptionTextBrowser.setText(descriptionsGlob[activity])
+
+            print(f"Descriptions: {descriptionsGlob}")
+            print(f"Complete: {completeSchedule}")
 
         
         #print(self.calendarView.selectedDate().dayOfWeek()) #1 is Monday #7 is Sunday

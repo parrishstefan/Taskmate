@@ -30,3 +30,13 @@ Email: alexnguyen1994@csu.fullerton.edu
 ## B. Description of our App
 
 Taskmate is a PyQt6-based app that is designed to help users organize their day by inputting tasks and activities they need to complete. The app allows users to create a schedule for a given day, and generates a clear and easy-to-follow schedule. With a simple and intuitive user interface, users can easily add tasks and set their priority level and duration. The app then optimizes the schedule to ensure that all tasks are completed within the given timeframe, without overlapping or conflicting with each other
+
+## C. Running the app
+
+Once you clone the repo onto your PC, you can either run the python file (Requires Python 3.10+)
+```
+pip install PyQt6
+python Taskmate.py
+```
+
+or you can run the .exe file from the /dist/Taskmate/Taskmate.exe
